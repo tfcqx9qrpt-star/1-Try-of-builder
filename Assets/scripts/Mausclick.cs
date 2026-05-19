@@ -57,7 +57,8 @@ public class Mausclick : MonoBehaviour
         previewBlock.transform.position = worldPos;
 
         if (Input.GetMouseButtonDown(0))
-        {           
+        {
+
             Debug.Log(worldPos);
           
             //erstellte prefabs gehen direkt in die liste
