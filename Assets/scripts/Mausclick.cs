@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 
 public class Mausclick : MonoBehaviour
@@ -88,10 +89,15 @@ public class Mausclick : MonoBehaviour
         {
             hit = Physics2D.OverlapPoint(worldPos);
 
-            if (hit != null)
-            { 
-                Destroy(hit.gameObject);
-                placedBlocks.Remove(hit.gameObject);
+            if (hit != null) 
+            {
+                if (placedBlocks.Contains(hit.gameObject))
+
+                {
+                    Destroy(hit.gameObject);
+                    placedBlocks.Remove(hit.gameObject);
+                }
+               
             }
         }
     }
