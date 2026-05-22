@@ -148,14 +148,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a85979be451f8ca449455b91a2bf9804, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  beamPrefab: {fileID: 3457173162619125785, guid: 3e7c430126cf1434a9f15448a54d8d5e, type: 3}
   squarePrefab: {fileID: 1259206984989500814, guid: 2507a027ff0bcb0438afc22fd3b907f7, type: 3}
   circlePrefab: {fileID: 6811637583093484688, guid: 4feedd5fc10fb6a418985dbf9bf52d4b, type: 3}
   trianglePrefab: {fileID: 3882086528864947287, guid: 9b551d12749a6d54abe433dc3e861743, type: 3}
   gridSize: 0.25
+  maxBeamLength: 3
   placedBlocks: []
   previewPrefabS: {fileID: 5271693075170359476, guid: 42a10a646c4f0854093068c72d815629, type: 3}
   previewPrefabC: {fileID: 6811637583093484688, guid: 4dbcca0b5b8a14e4ea6d82922090633f, type: 3}
   previewPrefabT: {fileID: 9058817252520108110, guid: 8ef2b95e3b01d8e43a57871387584a8e, type: 3}
+  previewPrefab1B: {fileID: 9191518579772953991, guid: 511a84b0c6112304bba23ff5db231798, type: 3}
+  previewPrefab2B: {fileID: 8720643238392002158, guid: e18fc4dd9402c224e83b8ae8b28501bc, type: 3}
 --- !u!4 &289250368
 Transform:
   m_ObjectHideFlags: 0
@@ -404,7 +408,7 @@ GameObject:
   - component: {fileID: 733820244}
   - component: {fileID: 733820246}
   m_Layer: 0
-  m_Name: floor
+  m_Name: floor-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,8 +482,8 @@ Transform:
   m_GameObject: {fileID: 733820243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.829, y: -2.665, z: -1}
-  m_LocalScale: {x: 0.29448563, y: 0.27923843, z: 1}
+  m_LocalPosition: {x: -4.9985, y: -2.6675, z: -1}
+  m_LocalScale: {x: 0.31215474, y: 0.27817732, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -615,8 +619,8 @@ Transform:
   m_GameObject: {fileID: 1121406999}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0885, y: 0.0122, z: 1.51}
-  m_LocalScale: {x: 0.5021342, y: 0.4716005, z: 1}
+  m_LocalPosition: {x: -0.0286, y: -0.0034, z: 1.51}
+  m_LocalScale: {x: 0.5780836, y: 0.46296188, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -633,7 +637,7 @@ GameObject:
   - component: {fileID: 1854844246}
   - component: {fileID: 1854844245}
   m_Layer: 0
-  m_Name: floor (1)
+  m_Name: floor-right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -753,8 +757,8 @@ Transform:
   m_GameObject: {fileID: 1854844244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.836, y: -2.671, z: -1}
-  m_LocalScale: {x: 0.29448563, y: 0.27923843, z: 1}
+  m_LocalPosition: {x: 4.0025, y: -2.6698, z: -1}
+  m_LocalScale: {x: 0.31183484, y: 0.2797626, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

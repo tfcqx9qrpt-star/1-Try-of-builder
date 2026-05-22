@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1186711193939963509}
   - component: {fileID: 6568203999575805894}
   m_Layer: 0
-  m_Name: Prefab-Triangle
+  m_Name: Preview-Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
