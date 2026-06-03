@@ -18,14 +18,16 @@ public class Mausclick : MonoBehaviour
     public GameObject squarePrefab;
     public GameObject circlePrefab;
     public GameObject trianglePrefab;
-    public float gridSize = 0.25f;
-    public float maxBeamLength = 5f;
     public List<GameObject> placedBlocks = new List<GameObject>();
     public GameObject previewPrefabS;
     public GameObject previewPrefabC;
     public GameObject previewPrefabT;
     public GameObject previewPrefab1B;
     public GameObject previewPrefab2B;
+    public Vector2 buildMin = new Vector2(-5f, -3f);
+    public Vector2 buildMax = new Vector2(5f, 3f);
+    public float gridSize = 0.25f;
+    public float maxBeamLength = 5f;
 
     Collider2D hit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -75,6 +77,11 @@ public class Mausclick : MonoBehaviour
         worldPos.x = Mathf.Round(worldPos.x / gridSize) * gridSize;
         worldPos.y = Mathf.Round(worldPos.y / gridSize) * gridSize;
         worldPos.z = 0f;
+        bool insideBuildArea =
+            worldPos.x >= buildMin.x &&
+            worldPos.x <= buildMax.x &&
+            worldPos.y >= buildMin.y &&
+            worldPos.y <= buildMax.y;
         if (!isBuildingBeam)
         {
             previewBlock.transform.position = worldPos;
@@ -93,6 +100,8 @@ public class Mausclick : MonoBehaviour
 
             UpdateBeamVisual(beamPreview, beamStartPos, limitedEndPos);
         }
+        Collider2D objectAtPosition = Physics2D.OverlapPoint(worldPos);
+        bool positionIsFree = objectAtPosition == null;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -100,36 +109,47 @@ public class Mausclick : MonoBehaviour
             {
                 if (!isBuildingBeam)
                 {
-                    beamStartPos = worldPos;
-                    isBuildingBeam = true;
-                    beamPreview = Instantiate(previewPrefab2B, beamStartPos, Quaternion.identity);
+                    Debug.Log(worldPos);
+                    if (insideBuildArea && positionIsFree)
+                    {
+                        beamStartPos = worldPos;
+                        isBuildingBeam = true;
+                        beamPreview = Instantiate(previewPrefab2B, beamStartPos, Quaternion.identity);
+                    }
                 }
                 else
                 {
-                    Vector3 direction = worldPos - beamStartPos;
-
-                    if (direction.magnitude > maxBeamLength)
+                    if (insideBuildArea && positionIsFree)
                     {
-                        direction = direction.normalized * maxBeamLength;
+                        Vector3 direction = worldPos - beamStartPos;
+
+                        if (direction.magnitude > maxBeamLength)
+                        {
+                            direction = direction.normalized * maxBeamLength;
+                        }
+
+                        Vector3 limitedEndPos = beamStartPos + direction;
+
+                        GameObject newBeam = Instantiate(beamPrefab);
+                        UpdateBeamVisual(newBeam, beamStartPos, limitedEndPos);
+
+                        Destroy(beamPreview);
+                        beamPreview = null;
+                        isBuildingBeam = false;
                     }
-
-                    Vector3 limitedEndPos = beamStartPos + direction;
-
-                    GameObject newBeam = Instantiate(beamPrefab);
-                    UpdateBeamVisual(newBeam, beamStartPos, limitedEndPos);
-
-                    Destroy(beamPreview);
-                    beamPreview = null;
-                    isBuildingBeam = false;
                 }
             }
             else
             {
                 Debug.Log(worldPos);
+                if (insideBuildArea && positionIsFree)
+                {
+                    //erstellte prefabs gehen direkt in die liste
+                    GameObject newBlock = Instantiate(selectedPrefab, worldPos, Quaternion.identity);
+                    placedBlocks.Add(newBlock);
+                }
 
-                //erstellte prefabs gehen direkt in die liste
-                GameObject newBlock = Instantiate(selectedPrefab, worldPos, Quaternion.identity);
-                placedBlocks.Add(newBlock);
+                
             }
             
 
