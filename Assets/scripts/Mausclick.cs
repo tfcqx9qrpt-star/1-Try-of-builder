@@ -28,6 +28,7 @@ public class Mausclick : MonoBehaviour
     public Vector2 buildMax = new Vector2(5f, 3f);
     public float gridSize = 0.25f;
     public float maxBeamLength = 5f;
+    public LayerMask placedObjectLayer;
 
     Collider2D hit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -82,6 +83,10 @@ public class Mausclick : MonoBehaviour
             worldPos.x <= buildMax.x &&
             worldPos.y >= buildMin.y &&
             worldPos.y <= buildMax.y;
+        Collider2D objectAtPosition = Physics2D.OverlapPoint(worldPos, placedObjectLayer);
+        bool positionIsFree = objectAtPosition == null;
+        bool canPlace = insideBuildArea && positionIsFree;
+
         if (!isBuildingBeam)
         {
             previewBlock.transform.position = worldPos;
@@ -100,8 +105,7 @@ public class Mausclick : MonoBehaviour
 
             UpdateBeamVisual(beamPreview, beamStartPos, limitedEndPos);
         }
-        Collider2D objectAtPosition = Physics2D.OverlapPoint(worldPos);
-        bool positionIsFree = objectAtPosition == null;
+
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -112,30 +116,36 @@ public class Mausclick : MonoBehaviour
                     Debug.Log(worldPos);
                     if (insideBuildArea && positionIsFree)
                     {
-                        beamStartPos = worldPos;
-                        isBuildingBeam = true;
-                        beamPreview = Instantiate(previewPrefab2B, beamStartPos, Quaternion.identity);
+                        if (canPlace)
+                        {
+                            beamStartPos = worldPos;
+                            isBuildingBeam = true;
+                            beamPreview = Instantiate(previewPrefab2B, beamStartPos, Quaternion.identity);
+                        }
                     }
                 }
                 else
                 {
                     if (insideBuildArea && positionIsFree)
                     {
-                        Vector3 direction = worldPos - beamStartPos;
-
-                        if (direction.magnitude > maxBeamLength)
+                        if (canPlace)
                         {
-                            direction = direction.normalized * maxBeamLength;
+                            Vector3 direction = worldPos - beamStartPos;
+
+                            if (direction.magnitude > maxBeamLength)
+                            {
+                                direction = direction.normalized * maxBeamLength;
+                            }
+
+                            Vector3 limitedEndPos = beamStartPos + direction;
+
+                            GameObject newBeam = Instantiate(beamPrefab);
+                            UpdateBeamVisual(newBeam, beamStartPos, limitedEndPos);
+
+                            Destroy(beamPreview);
+                            beamPreview = null;
+                            isBuildingBeam = false;
                         }
-
-                        Vector3 limitedEndPos = beamStartPos + direction;
-
-                        GameObject newBeam = Instantiate(beamPrefab);
-                        UpdateBeamVisual(newBeam, beamStartPos, limitedEndPos);
-
-                        Destroy(beamPreview);
-                        beamPreview = null;
-                        isBuildingBeam = false;
                     }
                 }
             }
@@ -144,9 +154,12 @@ public class Mausclick : MonoBehaviour
                 Debug.Log(worldPos);
                 if (insideBuildArea && positionIsFree)
                 {
-                    //erstellte prefabs gehen direkt in die liste
-                    GameObject newBlock = Instantiate(selectedPrefab, worldPos, Quaternion.identity);
-                    placedBlocks.Add(newBlock);
+                    if (canPlace)
+                    {
+                        //erstellte prefabs gehen direkt in die liste
+                        GameObject newBlock = Instantiate(selectedPrefab, worldPos, Quaternion.identity);
+                        placedBlocks.Add(newBlock);
+                    }
                 }
 
                 
