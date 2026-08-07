@@ -295,6 +295,9 @@ MonoBehaviour:
   buildMax: {x: 2.5, y: 3}
   gridSize: 0.5
   maxBeamLength: 5
+  placedObjectLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!4 &289250368
 Transform:
   m_ObjectHideFlags: 0
